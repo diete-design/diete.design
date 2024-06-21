@@ -75,6 +75,8 @@
 	textarea {
 		position: relative;
 		border-radius: 0.25rem;
+		max-width: 100%;
+		min-height: fit-content;
 		color: var(--colors-ultra-high);
 		font-family: var(--font-family-sans-serif);
 		&::placeholder {
