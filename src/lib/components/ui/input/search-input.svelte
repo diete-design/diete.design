@@ -8,6 +8,7 @@
 	}
 	let {
 		value = $bindable(),
+		variant = 'outline',
 		dimension,
 		disabled,
 		withButton = false,
@@ -21,7 +22,7 @@
 		<Button
 			{dimension}
 			{disabled}
-			variant="secondary"
+			variant={variant === 'outline' ? 'secondary' : 'solid'}
 			onclick={() => {
 				value = ''
 				input.focus()
@@ -29,7 +30,7 @@
 		>
 			<Delete {size} />
 		</Button>
-		<Button {dimension} {disabled} variant="secondary">
+		<Button {dimension} {disabled} variant={variant === 'outline' ? 'secondary' : 'solid'}>
 			<Search {size} />
 		</Button>
 	{:else}
@@ -57,6 +58,7 @@
 	iconStart={!withButton ? iconStart : undefined}
 	{buttons}
 	bind:value
+	{variant}
 	{...restProps}
 	type="search"
 />

@@ -3,14 +3,24 @@
 	import Button from '../button.svelte'
 	import Input, { type Props } from './input.svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
-	let { dimension, disabled, ...restProps }: Props & HTMLInputAttributes = $props()
+	let {
+		dimension,
+		disabled,
+		variant = 'outline',
+		...restProps
+	}: Props & HTMLInputAttributes = $props()
 	let size: 16 | 24 | 32 = $derived(dimension === 'large' ? 32 : dimension === 'small' ? 16 : 24)
 	let color = $state()
 	let colorInput: HTMLInputElement
 </script>
 
 {#snippet buttons()}
-	<Button {dimension} {disabled} onclick={() => colorInput.click()} variant="secondary">
+	<Button
+		{dimension}
+		{disabled}
+		onclick={() => colorInput.click()}
+		variant={variant === 'outline' ? 'secondary' : 'solid'}
+	>
 		<div class="relative">
 			<div class="palette-icon">
 				<ColorPalette {size} />
@@ -20,7 +30,7 @@
 	</Button>
 {/snippet}
 
-<Input bind:value={color} {dimension} {disabled} type="text" {buttons} {...restProps} />
+<Input bind:value={color} {dimension} {disabled} {variant} type="text" {buttons} {...restProps} />
 
 <style lang="postcss">
 	.relative {
