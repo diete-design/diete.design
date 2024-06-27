@@ -38,6 +38,7 @@
 			'/components/select': 'Select',
 			'/components/slider': 'Slider',
 			'/components/switch': 'Switch',
+			'/components/table': 'Table',
 			'/components/textarea': 'Textarea',
 			'/components/tooltip': 'Tooltip',
 			'/components/typography': 'Typography',

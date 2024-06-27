@@ -7,6 +7,7 @@
 		ThumbsUpFilled,
 		ThumbsDown,
 		Error,
+		ChevronDown,
 	} from 'carbon-icons-svelte'
 
 	import Button from '$lib/components/ui/button.svelte'
@@ -30,6 +31,36 @@
 	import SearchInput from '$lib/components/ui/input/search-input.svelte'
 	import ColorInput from '$lib/components/ui/input/color-input.svelte'
 	import DateInput from '$lib/components/ui/input/date-input.svelte'
+	import Table from '$lib/components/ui/table/table.svelte'
+	import Tr from '$lib/components/ui/table/tr.svelte'
+	import Th from '$lib/components/ui/table/th.svelte'
+	import Td from '$lib/components/ui/table/td.svelte'
+	import Thead from '$lib/components/ui/table/thead.svelte'
+	import Tbody from '$lib/components/ui/table/tbody.svelte'
+
+	let selected: boolean[] = $state([])
+	let selectedCount = $state(0)
+	let selectionAll = $state(false)
+	function selectAll() {
+		const allChecked = selectedCount === selected.length
+		selected = selected.map(() => !allChecked)
+		selectedCount = allChecked ? 0 : selected.length
+	}
+	function toggleSelection(index: number) {
+		selected[index] = !selected[index]
+		selectedCount += selected[index] ? 1 : -1
+	}
+	$effect(() => {
+		const row = document.querySelectorAll('.with-checkbox')
+		selected = new Array(row.length).fill(false)
+	})
+	$effect(() => {
+		if (selectedCount === selected.length) {
+			selectionAll = true
+		} else {
+			selectionAll = false
+		}
+	})
 </script>
 
 <div class="page-wrapper">
@@ -2758,9 +2789,118 @@
 			</div>
 		</div>
 	</section>
+	<section class="table">
+		<Table>
+			<Thead>
+				<Tr>
+					<Th noPadding
+						><Checkbox
+							class="align"
+							label="Table header"
+							mixed={selectedCount > 0 && selectedCount < selected.length}
+							bind:checked={selectionAll}
+							onclick={selectAll}
+						/><ChevronDown class="align" size={24} /></Th
+					>
+					<Th>Table header</Th>
+					<Th>Table header</Th>
+					<Th>Table header</Th>
+					<Th>Table header</Th>
+				</Tr>
+			</Thead>
+			<Tbody>
+				<Tr class="with-checkbox" active={selected[0]}>
+					<Td noPadding
+						><Checkbox
+							class="align"
+							label="Cornhole"
+							bind:checked={selected[0]}
+							onclick={() => toggleSelection(0)}
+						/></Td
+					>
+					<Td>Glossier</Td>
+					<Td>Skateboard</Td>
+					<Td>Paleo</Td>
+					<Td>Fingerstache</Td>
+				</Tr>
+				<Tr class="with-checkbox" active={selected[1]}>
+					<Td noPadding
+						><Checkbox
+							class="align"
+							label="Cornhole"
+							bind:checked={selected[1]}
+							onclick={() => toggleSelection(1)}
+						/></Td
+					>
+					<Td>Glossier</Td>
+					<Td>Skateboard</Td>
+					<Td>Paleo</Td>
+					<Td>Fingerstache</Td>
+				</Tr>
+				<Tr class="with-checkbox" active={selected[2]}>
+					<Td noPadding
+						><Checkbox
+							class="align"
+							label="Cornhole"
+							bind:checked={selected[2]}
+							onclick={() => toggleSelection(2)}
+						/></Td
+					>
+					<Td>Glossier</Td>
+					<Td>Skateboard</Td>
+					<Td>Paleo</Td>
+					<Td>Fingerstache</Td>
+				</Tr>
+			</Tbody>
+		</Table>
+	</section>
+	<section class="table">
+		<Table>
+			<Tr>
+				<Th><div class="space-between">Table header<ChevronDown class="align" size={24} /></div></Th
+				>
+				<Th>Simple text</Th>
+				<Th>Longer text</Th>
+				<Th>Badge</Th>
+				<Th style="text-align: right;">Number</Th>
+				<Th style="text-align: right;">Button</Th>
+			</Tr>
+			<Tr>
+				<Td>Cornhole</Td>
+				<Td>Glossier</Td>
+				<Td>Copper mug skateboard fingerstache</Td>
+				<Td><Badge dimension="small"><CheckmarkFilled size={16} />Small Badge</Badge></Td>
+				<Td style="text-align: right;">999 EUR</Td>
+				<Td style="text-align: right;"
+					><Button variant="secondary" dimension="compact">Outline button</Button></Td
+				>
+			</Tr>
+			<Tr>
+				<Td>Cornhole</Td>
+				<Td>Glossier</Td>
+				<Td>Copper mug skateboard fingerstache</Td>
+				<Td><Badge dimension="small"><CheckmarkFilled size={16} />Small Badge</Badge></Td>
+				<Td style="text-align: right;">999 EUR</Td>
+				<Td style="text-align: right;"
+					><Button variant="secondary" dimension="compact">Outline button</Button></Td
+				>
+			</Tr>
+		</Table>
+	</section>
 </div>
 
 <style>
+	.table {
+		margin-bottom: 5rem;
+	}
+	:global(.align) {
+		vertical-align: middle;
+	}
+	.space-between {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
 	.page-wrapper {
 		background-color: var(--colors-ultra-low);
 	}

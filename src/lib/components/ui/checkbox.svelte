@@ -7,6 +7,7 @@
 		hover?: boolean
 		active?: boolean
 		focus?: boolean
+		mixed?: boolean
 	}
 	let {
 		label,
@@ -15,14 +16,14 @@
 		checked = $bindable(),
 		active,
 		focus,
-
+		mixed = false,
 		class: className = '',
 		...restProps
 	}: Props = $props()
 </script>
 
 <label class="{dimension} {className}" class:hover class:active class:focus>
-	<input type="checkbox" bind:checked {...restProps} />
+	<input type="checkbox" bind:checked class:mixed {...restProps} />
 	{label}
 </label>
 
@@ -114,13 +115,27 @@
 		border-bottom: 2px solid var(--colors-ultra-low);
 		content: '';
 	}
-
 	input[type='checkbox']:checked:disabled::before,
 	input[type='checkbox']:disabled::before {
 		cursor: not-allowed;
 	}
 	input[type='checkbox']:checked:disabled::after {
 		cursor: not-allowed;
+	}
+	.mixed[type='checkbox']::before {
+		border: 1px solid var(--colors-high);
+		background: var(--colors-high);
+	}
+	.mixed[type='checkbox']::after {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border: none;
+		background: var(--colors-ultra-low);
+		width: 50%;
+		height: 2px;
+		content: '';
 	}
 
 	.default {
