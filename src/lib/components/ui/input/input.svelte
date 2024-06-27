@@ -75,6 +75,9 @@
 					{disabled}
 					{...restProps}
 				/>
+				{#if type === 'date'}
+					<label for={labelFor} class="date-wrapper"></label>
+				{/if}
 				{#if iconStart}
 					<label for={labelFor} class="start-icon">
 						{@render iconStart()}
@@ -134,6 +137,27 @@
 	input[type='date']::-webkit-datetime-edit {
 		font-family: var(--font-family-sans-serif);
 		text-transform: uppercase;
+	}
+	.date-wrapper {
+		display: none;
+		position: relative;
+		cursor: text;
+		width: fit-content;
+	}
+	.date-wrapper::after {
+		position: absolute;
+		top: 50%;
+		right: 0.75rem;
+		transform: translate(0, -50%);
+		background: var(--colors-ultra-low);
+		width: 26px;
+		height: var(--line-height);
+		content: '';
+	}
+	@-moz-document url-prefix() {
+		.date-wrapper {
+			display: block;
+		}
 	}
 
 	.vertical {
@@ -274,6 +298,9 @@
 					opacity: 1;
 					color: var(--colors-top);
 				}
+				& ~ .date-wrapper::after {
+					background: var(--colors-base);
+				}
 			}
 			&:active:not(:disabled),
 			&.active:not(:disabled) {
@@ -365,6 +392,10 @@
 			line-height: var(--line-height-large);
 			letter-spacing: var(--letter-spacing-large);
 		}
+		.date-wrapper::after {
+			width: 34px;
+			height: var(--line-height-large);
+		}
 		.start-icon {
 			padding: var(--three-quarters-padding) var(--half-padding) var(--three-quarters-padding)
 				var(--three-quarters-padding);
@@ -406,6 +437,9 @@
 			line-height: var(--line-height);
 			letter-spacing: var(--letter-spacing);
 		}
+		.date-wrapper::after {
+			right: 0.5rem;
+		}
 		.start-icon {
 			padding: var(--half-padding);
 		}
@@ -440,6 +474,11 @@
 			font-size: var(--font-size-small);
 			line-height: var(--line-height-small);
 			letter-spacing: var(--letter-spacing-small);
+		}
+		.date-wrapper::after {
+			right: 0.5rem;
+			width: 18px;
+			height: var(--line-height-small);
 		}
 		.start-icon {
 			padding: var(--half-padding);
